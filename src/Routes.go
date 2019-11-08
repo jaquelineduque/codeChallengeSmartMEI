@@ -20,4 +20,10 @@ var routes = Routes{
 		"/",
 		Index,
 	},
+	Route{
+		"ConversaoMoeda",
+		"GET",
+		"/conversao",
+		ConversaoMoeda,
+	},
 }
