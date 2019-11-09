@@ -23,7 +23,7 @@ var routes = Routes{
 	Route{
 		"ConversaoMoeda",
 		"GET",
-		"/conversao",
+		"/conversao/graphql",
 		ConversaoMoeda,
 	},
 }
