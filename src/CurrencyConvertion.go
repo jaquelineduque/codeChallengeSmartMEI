@@ -10,7 +10,12 @@ import (
 func GetCurrencyValue(currencyBase string) (CurrenciesValues, error) {
 
 	var currenciesValues CurrenciesValues
-	response, err := http.Get("https://api.exchangeratesapi.io/latest?base=" + currencyBase)
+
+	urlConsult, _, err := GetURLConsult()
+	if err != nil {
+		return currenciesValues, err
+	}
+	response, err := http.Get(urlConsult + "?base=" + currencyBase)
 	if err != nil {
 		return currenciesValues, err
 	}
