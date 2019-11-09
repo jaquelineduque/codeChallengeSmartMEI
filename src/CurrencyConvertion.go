@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 func GetCurrencyValue(currencyBase string) (CurrenciesValues, error) {
@@ -21,5 +22,28 @@ func GetCurrencyValue(currencyBase string) (CurrenciesValues, error) {
 		return currenciesValues, err
 	}
 	return currenciesValues, nil
+
+}
+
+func BRLToEUR(valBRL float64, currenciesValues CurrenciesValues) float64 {
+	return (currenciesValues.Rates.EUR * valBRL)
+}
+
+func BRLToUSD(valBRL float64, currenciesValues CurrenciesValues) float64 {
+	return (currenciesValues.Rates.USD * valBRL)
+}
+
+func GetBRLTransferFare() float64 {
+	return 7
+}
+
+func GetTransferValue(currenciesValues CurrenciesValues) CurrencyOutput {
+	var currencyOutput CurrencyOutput
+	currencyOutput.Date = time.Now()
+	currencyOutput.FareDescripton = "Descrição fixa"
+	currencyOutput.CurrenciesOptions.BRL = GetBRLTransferFare()
+	currencyOutput.CurrenciesOptions.EUR = BRLToEUR(currencyOutput.CurrenciesOptions.BRL, currenciesValues)
+	currencyOutput.CurrenciesOptions.USD = BRLToUSD(currencyOutput.CurrenciesOptions.BRL, currenciesValues)
+	return currencyOutput
 
 }
