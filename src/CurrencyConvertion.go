@@ -7,6 +7,19 @@ import (
 	"time"
 )
 
+func HasPrincipalCurrencies(currencyBase string) bool {
+	currencyValues, err := GetCurrencyValue(currencyBase)
+	if err != nil {
+		return false
+	}
+	if (currencyValues.Rates.USD != 0) && (currencyValues.Rates.EUR != 0) {
+		return true
+	} else {
+		return false
+	}
+
+}
+
 func GetCurrencyValue(currencyBase string) (CurrenciesValues, error) {
 
 	var currenciesValues CurrenciesValues
