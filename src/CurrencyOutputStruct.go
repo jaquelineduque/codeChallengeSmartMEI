@@ -6,14 +6,16 @@ import (
 
 //CurrencyOutput type to define return structure
 type CurrencyOutput struct {
-	Date              time.Time         `json:"date"`
-	FareDescripton    string            `json:"fareDescription"`
-	CurrenciesOptions CurrenciesOptions `json:"currenciesOptions"`
+	Successful        bool              `json:"successful"`
+	Message           string            `json:"message,omitempty"`
+	Date              time.Time         `json:"date,omitempty"`
+	FareDescripton    string            `json:"fareDescription,omitempty"`
+	CurrenciesOptions CurrenciesOptions `json:"currenciesOptions,omitempty"`
 }
 
 //CurrenciesOptions stores all currencies supported
 type CurrenciesOptions struct {
-	BRL float64 `json:"BRL"`
-	EUR float64 `json:"EUR"`
-	USD float64 `json:"USD"`
+	BRL float64 `json:"BRL,omitempty"`
+	EUR float64 `json:"EUR,omitempty"`
+	USD float64 `json:"USD,omitempty"`
 }

@@ -49,6 +49,7 @@ func GetTransferValue(currenciesValues CurrenciesValues) CurrencyOutput {
 	currencyOutput.CurrenciesOptions.BRL = GetBRLTransferFare()
 	currencyOutput.CurrenciesOptions.EUR = BRLToEUR(currencyOutput.CurrenciesOptions.BRL, currenciesValues)
 	currencyOutput.CurrenciesOptions.USD = BRLToUSD(currencyOutput.CurrenciesOptions.BRL, currenciesValues)
+	currencyOutput.Successful = true
 	return currencyOutput
 
 }
