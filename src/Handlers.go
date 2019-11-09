@@ -23,66 +23,10 @@ func FormatError(w http.ResponseWriter, message string) {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Boas vindas!")
+	fmt.Fprintln(w, "Boas-vindas!")
 }
 
-func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
-	//vars := mux.Vars(r)
-	//brlVal := vars["brl_val"]
-	currenciesValues, err := GetCurrencyValue("BRL")
-	if err != nil {
-		FormatError(w, err.Error())
-		return
-	}
-
-	cOutput := GetTransferValue(currenciesValues)
-	// Schema
-	/*
-		currencyOptions := graphql.NewObject(graphql.ObjectConfig{
-			Name: "currenciesOptions",
-			Fields: graphql.Fields{
-				"BRL": &graphql.Field{
-					Type: graphql.Float,
-					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.BRL, nil
-					},
-				},
-				"EUR": &graphql.Field{
-					Type: graphql.Float,
-					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.EUR, nil
-					},
-				},
-				"USD": &graphql.Field{
-					Type: graphql.Float,
-					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.USD, nil
-					},
-				},
-			},
-		})*/
-	/*
-		currenciesOptions := graphql.Fields{
-			"BRL": &graphql.Field{
-				Type: graphql.Float,
-				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return cOutput.CurrenciesOptions.BRL, nil
-				},
-			},
-			"EUR": &graphql.Field{
-				Type: graphql.Float,
-				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return cOutput.CurrenciesOptions.EUR, nil
-				},
-			},
-			"USD": &graphql.Field{
-				Type: graphql.Float,
-				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					return cOutput.CurrenciesOptions.USD, nil
-				},
-			},
-		}*/
-
+func FilterFields(graphQuery string, currencyObj CurrencyOutput) []byte {
 	var currenciesOptions = graphql.NewObject(
 		graphql.ObjectConfig{
 			Name: "currenciesOptions",
@@ -90,19 +34,19 @@ func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
 				"BRL": &graphql.Field{
 					Type: graphql.Float,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.BRL, nil
+						return currencyObj.CurrenciesOptions.BRL, nil
 					},
 				},
 				"EUR": &graphql.Field{
 					Type: graphql.Float,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.EUR, nil
+						return currencyObj.CurrenciesOptions.EUR, nil
 					},
 				},
 				"USD": &graphql.Field{
 					Type: graphql.Float,
 					Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-						return cOutput.CurrenciesOptions.USD, nil
+						return currencyObj.CurrenciesOptions.USD, nil
 					},
 				},
 			},
@@ -113,31 +57,31 @@ func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
 		"successful": &graphql.Field{
 			Type: graphql.Boolean,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return cOutput.Successful, nil
+				return currencyObj.Successful, nil
 			},
 		},
 		"message": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return cOutput.Message, nil
+				return currencyObj.Message, nil
 			},
 		},
 		"date": &graphql.Field{
 			Type: graphql.DateTime,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return cOutput.Date, nil
+				return currencyObj.Date, nil
 			},
 		},
 		"fareDescription": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return cOutput.FareDescripton, nil
+				return currencyObj.FareDescripton, nil
 			},
 		},
 		"currenciesOptions": &graphql.Field{
 			Type: currenciesOptions,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return cOutput.CurrenciesOptions, nil
+				return currencyObj.CurrenciesOptions, nil
 			},
 		},
 	}
@@ -148,26 +92,27 @@ func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("failed to create new schema, error: %v", err)
 	}
 
-	// Query
-	query := r.URL.Query().Get("query")
-
-	params := graphql.Params{Schema: schema, RequestString: query}
+	params := graphql.Params{Schema: schema, RequestString: graphQuery}
 	rqryP := graphql.Do(params)
 	if len(rqryP.Errors) > 0 {
 		log.Fatalf("failed to execute graphql operation, errors: %+v", rqryP.Errors)
 	}
-
 	rJSON, _ := json.Marshal(rqryP)
-	/*
-		fmt.Printf("%s \n", rJSON) // {“data”:{“hello”:”world”}}
+	return rJSON
+}
 
-		jsonProp, err := json.Marshal(rJSON)
-		if err != nil {
-			FormatError(w, err.Error())
-			return
-		}
-	*/
+func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
+	currenciesValues, err := GetCurrencyValue("BRL")
+	if err != nil {
+		FormatError(w, err.Error())
+		return
+	}
+
+	cOutput := GetTransferValue(currenciesValues)
+
+	rJson := FilterFields(r.URL.Query().Get("query"), cOutput)
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(200)
-	w.Write(rJSON)
+	w.Write(rJson)
 }
