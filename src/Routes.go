@@ -21,9 +21,9 @@ var routes = Routes{
 		Index,
 	},
 	Route{
-		"ConversaoMoeda",
+		"GetTransferFare",
 		"GET",
-		"/conversao/graphql",
-		ConversaoMoeda,
+		"/fare/transfer/graphql",
+		GetTransferFare,
 	},
 }

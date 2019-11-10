@@ -101,7 +101,7 @@ func FilterFields(graphQuery string, currencyObj CurrencyOutput) []byte {
 	return rJSON
 }
 
-func ConversaoMoeda(w http.ResponseWriter, r *http.Request) {
+func GetTransferFare(w http.ResponseWriter, r *http.Request) {
 	currenciesValues, err := GetCurrencyValue("BRL")
 	if err != nil {
 		FormatError(w, err.Error())
