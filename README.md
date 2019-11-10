@@ -33,6 +33,7 @@ Onde, queryParameters são os parâmetros no formato GraphQL. Os paramêtros pos
 		USD
 		EUR
 	}
+}
 ```
 
 Onde,
