@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "d7efa642-ed7e-4f72-8386-28461416b4a0",
+		"name": "challenge_SmartMEI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/fare/transfer/graphql?query={\n\tsuccessful\n\tmessage\n\tdate\n\tfareDescription\n\tcurrenciesOptions{\n\t\tBRL\n\t\tUSD\n\t\tEUR\n\t}\n\t\n}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/fare/transfer/graphql?query={\n\tsuccessful\n\tmessage\n\tdate\n\tfareDescription\n\tcurrenciesOptions{\n\t\tBRL\n\t\tUSD\n\t\tEUR\n\t}\n\t\n}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"fare",
+						"transfer",
+						"graphql"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "{\n\tsuccessful\n\tmessage\n\tdate\n\tfareDescription\n\tcurrenciesOptions{\n\t\tBRL\n\t\tUSD\n\t\tEUR\n\t}\n\t\n}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
