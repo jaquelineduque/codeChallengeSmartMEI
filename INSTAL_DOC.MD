@@ -19,6 +19,7 @@ Foram criados testes unitários, para que sejam executados a cada nova alteraç�
 Na pasta de configuração(...\src\config) deverá conter um arquivo (config.json) onde ficam as URLs de taxa e conversão de moeda.  
  - A URL para conversão de moeda fica no campo "urlCurrencyValue".  
  - A URL para obtenção de taxa fica no campo "urlFares".  
+ 
 A pasta de configuração deverá ter permissão de leitura.  
 
 ## Executando o programa  
