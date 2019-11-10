@@ -31,3 +31,13 @@ func GetURLConsult() (string, int, error) {
 	return configuration.URLCurrencyValue, 0, nil
 
 }
+
+func GetURLFares() (string, int, error) {
+	configuration, idError, err := FileToConfig(PathConfigJson)
+	if err != nil {
+		return "", idError, err
+	}
+
+	return configuration.URLFares, 0, nil
+
+}

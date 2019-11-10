@@ -1,3 +1,4 @@
 {
-	"urlCurrencyValue":"https://api.exchangeratesapi.io/latest"
+	"urlCurrencyValue":"https://api.exchangeratesapi.io/latest",
+	"urlFares":"https://www.smartmei.com.br/#planos-e-tarifas"
 }
