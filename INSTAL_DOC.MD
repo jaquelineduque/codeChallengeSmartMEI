@@ -1,5 +1,5 @@
 
-# API  de consulta de imóveis   - Documentação de configuração  
+# API  de consulta de tarifas   - Documentação de configuração  
 
 A API foi desenvolvida com as seguintes ferramentas:  
 - Golang como linguagem de programação.  
